@@ -21,7 +21,7 @@ const CreateSnippet = () => {
     useEffect(() => {
         const fetchSnippet = async () => {
             try {
-                const res = await axios.get("http://localhost:8000/api/v1/snippet");
+                const res = await axios.get("http://localhost:8002/snippets");
                 console.log(res.data);
                 setSnippets(res.data);
             }
@@ -83,7 +83,7 @@ const CreateSnippet = () => {
                             <div className="bg-gray-50 p-3 rounded border border-gray-200 font-mono text-sm overflow-x-auto">
                                 <pre className="whitespace-pre-wrap break-words">{snippet.code}</pre>
                             </div>
-                            <CreateComment snippetId={snippet.id}></CreateComment>
+                            <CreateComment snippet={snippet}></CreateComment>
                         </div>
                     ))}
                 </div>

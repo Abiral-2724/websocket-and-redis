@@ -1,8 +1,8 @@
 import {snippets} from '../database/index.js'
 import {randomBytes} from "crypto"
+import axios from 'axios'
 
-
-export const createSnippet = (req ,res) => {
+export const createSnippet = async (req ,res) => {
     const id = randomBytes(4).toString('hex') ;
 
     const {title ,code} = req.body ;
@@ -13,6 +13,16 @@ export const createSnippet = (req ,res) => {
         title , 
         code 
     }
+
+
+    // event emit [ publish an event ]
+    await axios.post("http://localhost:8005/events",{
+        type : "Snippetcreated" ,
+        data : {
+            id ,
+            title 
+        }
+    })
 
     return res.status(201).json({
         sucess : true ,

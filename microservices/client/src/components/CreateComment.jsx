@@ -1,14 +1,14 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-const CreateComment = ({ snippetId }) => {
+const CreateComment = ({ snippet }) => {
   const [text, setText] = useState("");
   const [comments, setComments] = useState([]);
 
   const addComment = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`http://localhost:8001/api/v1/snippet/${snippetId}/comment`, { text });
+      const res = await axios.post(`http://localhost:8001/api/v1/snippet/${snippet.id}/comment`, { text });
       console.log(res.data);
       setComments([...comments, res.data.comment]);
       setText(""); // Clear input after submission
@@ -17,26 +17,26 @@ const CreateComment = ({ snippetId }) => {
     }
   }
 
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const res = await axios.get(`http://localhost:8001/api/v1/snippet/${snippetId}/comment`);
-        console.log(res.data);
-        setComments(res.data);
-      } catch (e) {
-        console.log(e);
-      }
-    }
+  // useEffect(() => {
+  //   const fetchComments = async () => {
+  //     try {
+  //       const res = await axios.get(`http://localhost:8001/api/v1/snippet/${snippetId}/comment`);
+  //       console.log(res.data);
+  //       setComments(res.data);
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   }
     
-    fetchComments(); // Execute the function
-  }, [snippetId]);
+  //   fetchComments(); // Execute the function
+  // }, [snippetId]);
 
   return (
     <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
       <ul className="mb-4 space-y-2">
-        {comments.map((comment, index) => (
+        {snippet.comments.map((comment, index) => (
           <li key={index} className="p-3 bg-white rounded border border-gray-200 shadow-sm">
-            {comment.text}
+            {comment.content}
           </li>
         ))}
       </ul>
